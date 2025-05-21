@@ -5,6 +5,11 @@
 
 main(){
 
+if [[ ! -f users.csv ]]; then
+ touch users.csv
+fi
+
+
 source register.sh
 source login.sh
 source report.sh
