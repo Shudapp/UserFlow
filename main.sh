@@ -9,6 +9,11 @@ if [[ ! -f users.csv ]]; then
  touch users.csv
 fi
 
+if [[ ! -f nume.csv ]]; then
+touch nume.csv
+fi
+
+
 
 source register.sh
 source login.sh
@@ -22,6 +27,11 @@ echo -e $FM
 
 read text
 text=${text,,}
+if [[ $text == "clearusers" ]]; then
+ echo > users.csv
+ echo > nume.csv
+ echo "Users si nume sters!"
+fi
 if [[ $text == "1" || $text == "register" || $text == "inregistreaza" ]]; then
     echo "Te inregistrezi"
     register
