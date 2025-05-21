@@ -22,8 +22,10 @@ if [[ $text == "1" || $text == "register" || $text == "inregistreaza" ]]; then
     register
 elif [[ $text == "2" || $text == "login" || $text == "logheaza" ]]; then
     echo "Te loghezi"
+    login
 elif [[ $text == "3" || $text == "Report" || $text == "Raport" ]]; then
     echo "Genereaza raport"
+    report
 else
    main
 fi
