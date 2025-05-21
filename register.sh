@@ -2,11 +2,11 @@
 
 
 finduser() {
-str="$1 $2"
+str="$1"
 if grep -q $str users.csv; then
-return 1
-fi
 return 0
+fi
+return 1
 }
 findname() {
 str="$1"
@@ -19,22 +19,45 @@ return 1
 
 
 register() {
- echo "Vei introduce, in ordinea urmatoare, Numele din aplicatie, Numele pentru login, Parola"
- echo "Introduce numele tau: "
- read name
- while findname "$name"; do
- echo -e "Nume folosit deja\n"
- read name
+ echo "Vei introduce, in ordinea urmatoare, email, parola, nume utilizator"
+ echo "Introduce email-ul tau: "
+ read email
+ while finduser "$email"; do
+ echo -e "Acest cont deja exista, pentru iesit tastati exit\n"
+ read email
+ if [[ $email == "exit" ]]; then
+  return
+ fi
  done
- echo $name >> nume.csv
- #verifica daca exista deja numele
- echo "Introduce username-ul"
- read user
- echo $user >> users.csv
+
  echo "Introduce parola"
  read parola
  #crypting
- #verifica daca exista deja contul
 
+
+#citim nume
+echo "Introduce numele tau de utilizator"
+ read nume
+while findname "$nume"; do
+ echo -e "Numele deja exista, introdu alt nume\nPentru iesit tastati exit"
+ read nume
+ if [[ $nume == "exit" ]]; then
+   return
+ fi
+done
+ echo $nume >> nume.csv
+ str="$email $parola"
+ echo $str >> users.csv
+
+ cd users
+ if [[ ! -d "$nume" ]]; then
+  mkdir "$nume"
+  cd "$nume"
+  mkdir "home"
+  cd "home"
+ else
+  cd "$nume/home"
+ fi
+echo "Registrare efectuata"
 
 }

@@ -13,6 +13,9 @@ if [[ ! -f nume.csv ]]; then
 touch nume.csv
 fi
 
+if [[ ! -d users ]]; then
+ mkdir users
+fi
 
 
 source register.sh
@@ -41,6 +44,8 @@ elif [[ $text == "2" || $text == "login" || $text == "logheaza" ]]; then
 elif [[ $text == "3" || $text == "Report" || $text == "Raport" ]]; then
     echo "Genereaza raport"
     report
+elif [[ $text == "exit" ]]; then
+   return 0
 else
    main
 fi
