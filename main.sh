@@ -6,15 +6,15 @@
 main(){
 
 if [[ ! -f users.csv ]]; then
- touch users.csv
+    touch users.csv
 fi
 
 if [[ ! -f nume.csv ]]; then
-touch nume.csv
+    touch nume.csv
 fi
 
 if [[ ! -d users ]]; then
- mkdir users
+    mkdir users
 fi
 
 

@@ -20,7 +20,7 @@ return 1
 
 register() {
  echo "Vei introduce, in ordinea urmatoare, email, parola, nume utilizator"
- echo "Introduce email-ul tau: "
+ echo "Introdu email-ul tau: "
  read email
  while finduser "$email"; do
  echo -e "Acest cont deja exista, pentru iesit tastati exit\n"
@@ -30,13 +30,13 @@ register() {
  fi
  done
 
- echo "Introduce parola"
+ echo "Introdu parola"
  read parola
  #crypting
-
+ parola=$(echo -n "$parola" | sha256sum | cut -d' ' -f1)
 
 #citim nume
-echo "Introduce numele tau de utilizator"
+echo "Introdu numele tau de utilizator"
  read nume
 while findname "$nume"; do
  echo -e "Numele deja exista, introdu alt nume\nPentru iesit tastati exit"
@@ -46,7 +46,9 @@ while findname "$nume"; do
  fi
 done
  echo $nume >> nume.csv
- str="$email $parola"
+ id=$(cat users.csv | wc -l)
+id=$((id + 1))
+ str="$id,$nume,$email,$parola"
  echo $str >> users.csv
 
  cd users
@@ -58,6 +60,6 @@ done
  else
   cd "$nume/home"
  fi
-echo "Registrare efectuata"
+echo "Inregistrare efectuata"
 
 }
