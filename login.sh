@@ -40,9 +40,12 @@ if [ -n "$linie" ]; then
         }
 
         logout() {
-            echo "Logout pentru: \$1"
+            echo "Logout pentru: $1"
             remove_user "$1"
-        }' > logout.sh
+            cd ../../../
+        }
+
+        logout "$1" '> logout.sh
     chmod +x logout.sh
 
     else
