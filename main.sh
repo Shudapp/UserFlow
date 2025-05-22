@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-
-
 main(){
 
 if [[ ! -f users.csv ]]; then
