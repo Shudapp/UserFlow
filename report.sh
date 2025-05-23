@@ -1,8 +1,38 @@
-
+#!/bin/bash
 
 report() {
+ read -p "Introduceti numele userului: " USER
+ FAKE_HOME="./fake_home/$USER"
+ RAPORT="raport_fisiere_$USER.txt"
+ mkdir "$FAKE_HOME"
+ mkdir "FAKE_HOME"/fane
+touch "$FAKE_HOME"/fisier1.txt "$FAKE_HOME"/fisier2.txt "$FAKE_HOME"/document.doc
+ echo  "Raport generat: $(date)" > echo "User simulat: $USER" >> "$RAPORT"
+echo "Director analizat: $FAKE_HOME" >> "$RAPORT"
+echo "------------------------------------" >> "$RAPORT"
 
-#Aici introduci codul !!!
+if [ -d "$FAKE_HOME" ]; then
+    echo " Directorul pentru userul \"$USER\" există." >> "$RAPORT"
+
+    COUNT=$(find "$FAKE_HOME" -type f 2> /tmp/eroare_find.txt | wc -l)
+    DIRECTOR=$(find "$FAKE_HOME" -type d 2> /tmp/eroare_find.txt | wc -l)
+  echo " Număr de fișiere găsite: $COUNT" >> "$RAPORT"
+   echo " Număr de directoare găsite: $DIRECTOR" >> "$RAPORT"
+    if [ -s /tmp/eroare_find.txt ]; then
+        echo " Erori apărute în timpul căutării:" >> "$RAPORT"
+        cat /tmp/eroare_find.txt >> "$RAPORT"
+    else
+        echo " Nicio eroare detectată în timpul căutării." >> "$RAPORT"
+    fi
+
+    rm -f /tmp/eroare_find.txt
+else
+    echo "Directorul pentru userul \"$USER\" NU există." >> "$RAPORT"
+fi
+
+echo "------------------------------------" >> "$RAPORT"
+echo "Raport generat local în: $RAPORT"
+cat "$RAPORT"
 help="Lista de comenzi:\n 1.report nume\n 2.raport nume\n 3.nume\n"
 read comanda
 if [[ $comanda == "-help" || $comanda == "help" ]]; then
