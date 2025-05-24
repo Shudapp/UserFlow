@@ -50,35 +50,33 @@ login(){
     calea_curenta="$(pwd)"
 
     echo '#!/bin/bash
-    RAPORT="raport_fisiere_$nume.txt"
-    echo "Raport generat: $(date)" > "$RAPORT"
-    echo "User: $nume" >> "$RAPORT"
+RAPORT="raport_fisiere_$nume.txt"
+echo "Raport generat: $(date)" > "$RAPORT"
+echo "User: $nume" >> "$RAPORT"
 
-    echo "------------------------------------" >> "$RAPORT"
+echo "------------------------------------" >> "$RAPORT"
 
-    if [ -d $calea_curenta ]; then
-        echo " Directorul pentru userul \"$USER\" există." >> "$RAPORT"
+COUNT=$(find $calea_curenta -type f 2> /tmp/eroare_find.txt | wc -l)
+COUNT=$((COUNT - 1))
+DIMENSIUNE_TOTALA=$(du -sb | cut -f1)
+DIMENSIUNE_REPORT=$(du -sb report.sh | cut -f1)
+DIMENSIUNE_TOTALA_FARA_REPORT=$((DIMENSIUNE_TOTALA - DIMENSIUNE_REPORT))
+DIRECTOR=$(find $calea_curenta -type d 2> /tmp/eroare_find.txt | wc -l)
+echo " Număr de fișiere găsite: $COUNT" >> "$RAPORT"
+echo " Dimensiunea tuturor fisierelor, fara script, este: $DIMENSIUNE_TOTALA_FARA_REPORT bytes" >> $RAPORT
+echo " Număr de directoare găsite: $DIRECTOR" >> "$RAPORT"
+if [ -s /tmp/eroare_find.txt ]; then 
+    echo "Erori apărute în timpul căutării:" >> "$RAPORT"
+    cat /tmp/eroare_find.txt >> "$RAPORT"
+else
+    echo " Nicio eroare detectată în timpul căutării." >> "$RAPORT"
+fi
 
-        COUNT=$(find $calea_curenta -type f 2> /tmp/eroare_find.txt | wc -l)
-        COUNT=$((COUNT - 1))
-        DIRECTOR=$(find $calea_curenta -type d 2> /tmp/eroare_find.txt | wc -l)
-        echo " Număr de fișiere găsite: $COUNT" >> "$RAPORT"
-        echo " Număr de directoare găsite: $DIRECTOR" >> "$RAPORT"
-        if [ -s /tmp/eroare_find.txt ]; then
-            echo "Erori apărute în timpul căutării:" >> "$RAPORT"
-            cat /tmp/eroare_find.txt >> "$RAPORT"
-        else
-            echo " Nicio eroare detectată în timpul căutării." >> "$RAPORT"
-        fi
+rm -f /tmp/eroare_find.txt
 
-        rm -f /tmp/eroare_find.txt
-    else
-        echo "Directorul pentru userul \"$USER\" NU există." >> "$RAPORT"
-    fi
-
-    echo "------------------------------------" >> "$RAPORT"
-    echo "Raport generat local în: $RAPORT"
-    cat "$RAPORT"' > report.sh
+echo "------------------------------------" >> "$RAPORT"
+echo "Raport generat local în: $RAPORT"
+cat "$RAPORT" ' > report.sh
     chmod +x report.sh
     chmod +x logout.sh
 
