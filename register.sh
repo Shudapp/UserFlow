@@ -31,7 +31,7 @@ register() {
  done
 
  echo "Introdu parola"
- read parola
+ read -s parola
  #crypting
  parola=$(echo -n "$parola" | sha256sum | cut -d' ' -f1)
 
@@ -62,4 +62,15 @@ id=$((id + 1))
  fi
 echo "Inregistrare efectuata"
 
+subject="Confirmare inregistrare"
+body="Salut $nume,
+
+Te-ai inregistrat cu succes."
+
+(
+echo "To: $email"
+echo "Subject: $subject"
+echo ""
+echo "$body"
+) | sendmail -t
 }
