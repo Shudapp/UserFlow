@@ -1,5 +1,5 @@
 #!/bin/bash
-
+file_path=$(pwd)
 main(){
 
 if [[ ! -f users.csv ]]; then
@@ -27,6 +27,8 @@ echo -e $FM
 
 read text
 text=${text,,}
+check=$(echo "$text" | cut -d' ' -f1)
+nume=$(echo "$text" | cut -d' ' -f2)
 if [[ $text == "clearusers" ]]; then
  echo > users.csv
  echo > nume.csv
@@ -34,19 +36,22 @@ if [[ $text == "clearusers" ]]; then
 fi
 if [[ $text == "1" || $text == "register" || $text == "inregistreaza" ]]; then
     echo "Te inregistrezi"
-    register
+    nume="$(register)"
+    #id=(find_id "$nume")
 elif [[ $text == "2" || $text == "login" || $text == "logheaza" ]]; then
     echo "Te loghezi"
-    login
+    nume="$(login)"
+    id=(find_id "$nume")
 elif [[ $text == "3" || $text == "Report" || $text == "Raport" ]]; then
     echo "Genereaza raport"
-    report
-elif [[ $text == "exit" ]]; then
-   return 0
-else
-   main
+    if [[ $nume != "null"  && $nume != $check ]]; then
+        id=$(find_id $nume)
+        report $id
+    else
+        echo -e "Raport nul, incearca din nou\n"
+    fi
 fi
-
+main
 
 }
 

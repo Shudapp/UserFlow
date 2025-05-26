@@ -1,34 +1,37 @@
 #!/bin/bash
-
-
+set -euo pipefail
 finduser() {
 str="$1"
-if grep -q $str users.csv; then
-return 0
-fi
-return 1
+echo "$(grep "$str" users.csv | cut -d',' -f3)" >&2
 }
 findname() {
+echo "scartaie"
 str="$1"
-if grep -q $str nume.csv; then
+if grep -q "$str" nume.csv; then
 return 0
 fi
 return 1
 }
-
-
+find_id() {
+str="$1"
+nume=$(grep "$str" users.csv | cut -d',' -f2)
+echo $nume
+}
 
 register() {
- echo "Vei introduce, in ordinea urmatoare, email, parola, nume utilizator"
- echo "Introdu email-ul tau: "
- read email
- while finduser "$email"; do
- echo -e "Acest cont deja exista, pentru iesit tastati exit\n"
- read email
- if [[ $email == "exit" ]]; then
+
+echo "Vei introduce, in ordinea urmatoare, email, parola, nume utilizator"
+echo "Introdu email-ul tau: "
+read email
+while ! finduser "$email"; do
+echo "mata"
+echo -e "Acest cont deja exista, pentru iesit tastati exit\n"
+read email
+if [[ $email == "exit" ]]; then
   return
- fi
- done
+fi
+
+done
 
  echo "Introdu parola"
  read -s parola
@@ -46,7 +49,7 @@ while findname "$nume"; do
  fi
 done
  echo $nume >> nume.csv
- id=$(cat users.csv | wc -l)
+ id=$(cat nume.csv | wc -l)
 id=$((id + 1))
  str="$id,$nume,$email,$parola"
  echo $str >> users.csv
@@ -67,10 +70,11 @@ body="Salut $nume,
 
 Te-ai inregistrat cu succes."
 
-(
-echo "To: $email"
-echo "Subject: $subject"
-echo ""
-echo "$body"
-) | sendmail -t
+#(
+#echo "To: $email"
+#echo "Subject: $subject"
+#echo ""
+#echo "$body"
+#) | sendmail -t
+echo $nume
 }
