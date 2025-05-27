@@ -17,19 +17,15 @@ logged_in_users=()
 
 login(){
     #daca exista user-ul, apelezi o functie aplicatie, unde poate sa genereze raport doar pentru el
-    cd "$file_path"
-
-    echo "Introduceti numele de utilizator"
-    read nume
-    echo "$file_path"
-    while [[ ! grep -Fq "$nume" "$file_path/users.csv" ]]; do
-        echo "$file_path"
-        $file_path = $file_path
-        echo "Numele $nume nu exista, introduceti altul"
+    echo "Introduceti email"
+    read email
+    cd $file_path
+    while (! grep -Fq "$email" "users.csv"); do
+        echo "Numele $email nu exista, introduceti altul"
         read nume
     done
 
-    linie=$(grep "$nume" "file_path/users.csv")
+    linie=$(grep "$nume" "users.csv")
     echo "Introduceti parola"
     read -s parola
     hash=$(echo $linie | cut -d',' -f4)

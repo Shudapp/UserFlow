@@ -64,7 +64,7 @@ elif [[ ( $text == "3" || $text == "Report" || $text == "Raport" ) && ( $logat -
     fi
 fi
 
-echo $file_path
+#echo $file_path
 main
 }
 
