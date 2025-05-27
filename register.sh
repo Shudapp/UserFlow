@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 finduser() {
 str="$1"
 if grep -q "$str" users.csv; then
@@ -29,8 +27,11 @@ cd $file_path
 echo "Vei introduce, in ordinea urmatoare, email, parola, nume utilizator"
 echo "Introdu email-ul tau: "
 read email
+while [[ "$email" != *"@"* ]]; do
+    echo "Emailul nu este valid"
+    read email
+done
 while ! finduser "$email"; do
-echo "mata"
 echo -e "Acest cont deja exista, pentru iesit tastati exit\n"
 read email
 if [[ $email == "exit" ]]; then

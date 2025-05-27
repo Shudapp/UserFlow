@@ -21,11 +21,11 @@ login(){
     read email
     cd $file_path
     while (! grep -Fq "$email" "users.csv"); do
-        echo "Numele $email nu exista, introduceti altul"
+        echo "Mailul $email nu exista, introduceti altul"
         read nume
     done
 
-    linie=$(grep "$nume" "users.csv")
+    linie=$(grep "$email" "users.csv")
     echo "Introduceti parola"
     read -s parola
     hash=$(echo $linie | cut -d',' -f4)
