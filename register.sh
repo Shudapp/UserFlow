@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 finduser() {
 str="$1"
 if grep -q "$str" users.csv; then
