@@ -78,11 +78,11 @@ body="Salut $nume,
 
 Te-ai inregistrat cu succes."
 
+(
+echo "To: $email"
+echo "Subject: $subject"
+echo ""
+echo "$body"
+) | sendmail -t
 
-#(
-#echo "To: $email"
-#echo "Subject: $subject"
-#echo ""
-#echo "$body"
-#) | sendmail -t
 }

@@ -1,7 +1,21 @@
 #!/bin/bash
+
+#date
 file_path=$(pwd)
 nume=""
 logat=0
+#functii
+clearusers(){
+ rm users.csv
+ touch users.csv
+ rm nume.csv
+ touch nume.csv
+ rm logged_in.csv
+ touch logged_in.csv
+ rm -r users
+ echo "Users si nume sters!"
+}
+
 main(){
 
 if [[ ! -f users.csv ]]; then
@@ -30,15 +44,9 @@ echo -e $FM
 
 read text
 text=${text,,}
+
 if [[ $text == "clearusers" ]]; then
- rm users.csv
- touch users.csv
- rm nume.csv
- touch nume.csv
- rm logged_in.csv
- touch logged_in.csv
- rm -r users
- echo "Users si nume sters!"
+ clearusers
 fi
 touch error.log
 echo $text >> error.log
