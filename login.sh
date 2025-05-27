@@ -17,7 +17,7 @@ logged_in_users=()
 
 login(){
     #daca exista user-ul, apelezi o functie aplicatie, unde poate sa genereze raport doar pentru el
-
+    cd $file_path
     echo "Introduceti numele de utilizator"
     read nume
 
@@ -29,24 +29,24 @@ login(){
         parola=$(echo -n "$parola" | sha256sum | cut -d' ' -f1)
         if [ "$parola" = "$hash" ]; then
             last_login=$(date '+%Y-%m-%d %H:%M:%S')
-            id=$(echo "$linie" | cut -d' ' -f1)
-            nume=$(echo "$linie" | cut -d' ' -f2)
-            email=$(echo "$linie" | cut -d' ' -f3)
-            parola=$(echo "$linie" | cut -d' ' -f4)
+            id=$(echo "$linie" | cut -d',' -f1)
+            nume=$(echo "$linie" | cut -d',' -f2)
+            email=$(echo "$linie" | cut -d',' -f3)
+            parola=$(echo "$linie" | cut -d',' -f4)
 
             noua_linie="$id,$nume,$email,$parola,$last_login"
 
             sed -i "s/$linie/$noua_linie/" users.csv
-
+            echo $nume >> logged_in.csv
             logged_in_users+=("$nume")
             echo "Te-ai logat cu succes, ultima logare a fost actualizata"
             cd "./users/$nume/home/"
-else
-    echo "Parola introdusa este gresita"
-    return
+            
+        else
+            echo "Parola introdusa este gresita"
+            return
         fi
     else
         echo "Nu exista utilizatorul cu numele $nume"
     fi
-return id
 }
