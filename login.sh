@@ -1,28 +1,42 @@
 #!/bin/bash
 remove_user() {
-    to_remove="$1"
-    tmp=()
-    for user in "${logged_in_users[@]}"; do
-    [[ "$user" != "$to_remove" ]] && tmp+=("$user")
-    done
-    logged_in_users=("${tmp[@]}")
+    local user="$1"
+    #linie=$(grep -Fq ",$user," users.csv)
+    #echo $linie
+    #sed -i "/$linie/d" users.csv
+    #sed -i "/$user/d" nume.csv
+    sed -i "/$user/d" logged_in.csv
 }
+remove_account() {
+    local user="$1"
+    echo $user
+    cd $file_path
+    linie=$(grep -F ",$user," users.csv)
+    echo $linie
+    sed -i "/$linie/d" users.csv
+    sed -i "/$user/d" nume.csv
+    sed -i "/$user/d" logged_in.csv
+}
+
 logout() {
-    echo "Logout pentru: $1"
-    remove_user "$1"
-    cd "$file_path"
+    echo "Logout user"
+    local user="$(pwd)"
+    user="${user#*users/}"
+    user="${user%%/*}"
+    if [[ user != "" ]]; then
+        cd "$file_path"
+        remove_user $user
+    fi
 }
-
 logged_in_users=()
-
 login(){
     #daca exista user-ul, apelezi o functie aplicatie, unde poate sa genereze raport doar pentru el
+    cd $file_path
     echo "Introduceti email"
     read email
-    cd $file_path
     while (! grep -Fq "$email" "users.csv"); do
         echo "Mailul $email nu exista, introduceti altul"
-        read nume
+        read email
     done
 
     linie=$(grep "$email" "users.csv")

@@ -28,11 +28,11 @@ echo "Vei introduce, in ordinea urmatoare, email, parola, nume utilizator"
 echo "Introdu email-ul tau: "
 read email
 while [[ "$email" != *"@"* ]]; do
-    echo "Emailul nu este valid"
+    echo "Emailul nu este valid, incercati din nou"
     read email
 done
 while ! finduser "$email"; do
-echo -e "Acest cont deja exista, pentru iesit tastati exit\n"
+echo -e "Acest cont deja exista, introduceti altul\n pentru iesit tastati exit\n"
 read email
 if [[ $email == "exit" ]]; then
   return
@@ -56,8 +56,8 @@ while ! findname "$nume"; do
  fi
 done
 
- echo $nume >> nume.csv
- id=$(cat nume.csv | wc -l)
+echo $nume >> nume.csv
+id=$(cat nume.csv | wc -l)
 id=$((id + 1))
 str="$id,$nume,$email,$parola"
 echo $str >> users.csv

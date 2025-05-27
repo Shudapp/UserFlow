@@ -2,9 +2,15 @@
 
 #date
 file_path=$(pwd)
-nume=""
+numeglobal=""
 logat=0
 #functii
+get_user(){
+    local user="$(pwd)"
+    user="${user#*users/}"
+    user="${user%%/*}"
+    echo $user
+}
 clearusers(){
  rm users.csv
  touch users.csv
@@ -48,24 +54,24 @@ text=${text,,}
 if [[ $text == "clearusers" ]]; then
  clearusers
 fi
-touch error.log
-echo $text >> error.log
+touch comenzi.log
+echo $text >> comenzi.log
 if [[ $text == "1" || $text == "register" || $text == "inregistreaza" ]]; then
     echo "Te inregistrezi"
     register
-    nume=$(tail -n 1 $file_path/logged_in.csv)
+    numeglobal=$(tail -n 1 $file_path/logged_in.csv)
     logat=1
 elif [[ $text == "2" || $text == "login" || $text == "logheaza" ]]; then
     echo "Te loghezi"
     login
-    nume=$(tail -n 1 $file_path/logged_in.csv)
+    numeglobal=$(tail -n 1 $file_path/logged_in.csv)
     logat=1
 elif [[ ( $text == "3" || $text == "Report" || $text == "Raport" ) && ( $logat -eq 1 ) ]]; then
     echo "Genereaza raport"
     user=$(echo $text | cut -d' ' -f2)
-    if [[ ("$user" == "$text") && ("$nume" != "") ]]; then
-        report $nume
-    elif [[ "$nume" == "admin" ]]; then
+    if [[ ("$user" == "$text") && ("$numeglobal" != "") ]]; then
+        report $numeglobal
+    elif [[ "$numeglobal" == "admin" ]]; then
         raport $user
     else
         echo "Raport invalid"
@@ -73,7 +79,6 @@ elif [[ ( $text == "3" || $text == "Report" || $text == "Raport" ) && ( $logat -
 fi
 
 #echo $file_path
-main
 }
 
 
