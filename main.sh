@@ -45,7 +45,7 @@ main(){
     source $file_path/login.sh
     source $file_path/report.sh
 
-    FM="Welcome !\n 1.Register\n 2.Login\n 3.Report\n 4.Help\n"
+    FM="Welcome !\n 1.Register\n 2.Login\n 3.Report\n 4.Help\n 5.Exit\n"
 
 
     echo -e $FM
