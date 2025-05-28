@@ -12,6 +12,7 @@ get_user(){
     echo $user
 }
 clearusers(){
+    cd $file_path
     rm users.csv
     touch users.csv
     rm nume.csv
