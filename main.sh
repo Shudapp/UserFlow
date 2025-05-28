@@ -74,7 +74,7 @@ main(){
         if [[ ("$user" == "$text") && ("$numeglobal" != "") ]]; then
             report $numeglobal
         elif [[ "$numeglobal" == "admin" ]]; then
-            raport $user
+            report $user
         else
             echo "Raport invalid"
         fi
